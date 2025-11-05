@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareerBoost AI | Automated Job Applications</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #10b981;
+            --dark: #1f2937;
+            --light: #f9fafb;
+            --gray: #6b7280;
+            --gray-light: #e5e7eb;
+            --danger: #ef4444;
+            --success: #10b981;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f8fafc;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .logo i {
+            font-size: 1.8rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            opacity: 0.9;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 5rem 0;
+            background-color: white;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-title p {
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background-color: var(--light);
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 1rem;
+        }
+
+        /* How It Works */
+        .how-it-works {
+            padding: 5rem 0;
+            background-color: #f1f5f9;
+        }
+
+        .steps {
+            display: flex;
+            justify-content: space-between;
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .steps::before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: var(--gray-light);
+            z-index: 1;
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            flex: 1;
+        }
+
+        .step-number {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        /* Pricing Section */
+        .pricing {
+            padding: 5rem 0;
+            background-color: white;
+        }
+
+        .pricing-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            padding: 2.5rem;
+            text-align: center;
+            max-width: 400px;
+            margin: 0 auto;
+            border: 2px solid var(--gray-light);
+        }
+
+        .pricing-card.featured {
+            border-color: var(--primary);
+            transform: scale(1.05);
+            position: relative;
+        }
+
+        .pricing-card.featured::before {
+            content: 'Most Popular';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--primary);
+            color: white;
+            padding: 0.3rem 1.5rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .price {
+            font-size: 3rem;
+            font-weight: 700;
+            margin: 1rem 0;
+            color: var(--dark);
+        }
+
+        .price span {
+            font-size: 1rem;
+            color: var(--gray);
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin: 2rem 0;
+        }
+
+        .pricing-features li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        .pricing-features li:last-child {
+            border-bottom: none;
+        }
+
+        /* Upload Section */
+        .upload-section {
+            padding: 5rem 0;
+            background-color: #f1f5f9;
+        }
+
+        .upload-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            padding: 3rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .upload-area {
+            border: 2px dashed var(--gray-light);
+            border-radius: 8px;
+            padding: 3rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .upload-area:hover, .upload-area.dragover {
+            border-color: var(--primary);
+            background-color: rgba(37, 99, 235, 0.05);
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: var(--gray);
+            margin-bottom: 1rem;
+        }
+
+        .upload-area h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        /* Location Selector */
+        .location-selector {
+            margin-bottom: 2rem;
+        }
+
+        .location-selector h3 {
+            margin-bottom: 1rem;
+        }
+
+        .location-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .location-option {
+            padding: 1rem;
+            border: 1px solid var(--gray-light);
+            border-radius: 6px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .location-option:hover {
+            border-color: var(--primary);
+            background-color: rgba(37, 99, 235, 0.05);
+        }
+
+        .location-option.selected {
+            border-color: var(--primary);
+            background-color: rgba(37, 99, 235, 0.1);
+        }
+
+        /* Payment Section */
+        .payment-section {
+            padding: 5rem 0;
+            background-color: white;
+        }
+
+        .payment-methods {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .payment-method {
+            border: 1px solid var(--gray-light);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-width: 200px;
+        }
+
+        .payment-method:hover {
+            border-color: var(--primary);
+        }
+
+        .payment-method.selected {
+            border-color: var(--primary);
+            background-color: rgba(37, 99, 235, 0.05);
+        }
+
+        .payment-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-column h3 {
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: #d1d5db;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: #374151;
+            color: white;
+            transition: background-color 0.3s;
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #374151;
+            color: #9ca3af;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .steps {
+                flex-direction: column;
+                gap: 2rem;
+            }
+
+            .steps::before {
+                display: none;
+            }
+
+            .payment-methods {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <i class="fas fa-robot"></i>
+                    <span>CareerBoost AI</span>
+                </div>
+                <div class="nav-links">
+                    <a href="#features">Features</a>
+                    <a href="#how-it-works">How It Works</a>
+                    <a href="#pricing">Pricing</a>
+                    <a href="#testimonials">Success Stories</a>
+                </div>
+                <div class="auth-buttons">
+                    <button class="btn btn-outline">Login</button>
+                    <button class="btn btn-primary">Get Started</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>AI-Powered Job Applications</h1>
+            <p>Upload your CV once and let our AI apply to hundreds of jobs across South Africa. We rewrite your resume, craft personalized cover letters, and submit applications automatically.</p>
+            <div class="hero-buttons">
+                <button class="btn btn-success" style="font-size: 1.1rem; padding: 0.8rem 2rem;">
+                    <i class="fas fa-rocket"></i> Start Now - R499
+                </button>
+                <button class="btn btn-outline" style="background-color: rgba(255,255,255,0.2); color: white; border-color: white;">
+                    <i class="fas fa-play-circle"></i> Watch Demo
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Revolutionize Your Job Search</h2>
+                <p>Our AI technology handles the tedious parts of job hunting so you can focus on preparing for interviews.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <h3>AI Resume Rewriting</h3>
+                    <p>Our AI analyzes and optimizes your resume for each job application, highlighting relevant skills and experience.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3>Smart Job Matching</h3>
+                    <p>We scan thousands of job listings across South Africa and match you with positions that fit your profile.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-edit"></i>
+                    </div>
+                    <h3>Personalized Cover Letters</h3>
+                    <p>AI-generated cover letters tailored to each specific job application, saving you hours of writing.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-paper-plane"></i>
+                    </div>
+                    <h3>Automated Applications</h3>
+                    <p>One-click submission to multiple job platforms. We handle the entire application process for you.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Application Tracking</h3>
+                    <p>Monitor all your applications, responses, and interview invitations in one convenient dashboard.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Secure & Private</h3>
+                    <p>Your data is encrypted and never shared with third parties without your explicit permission.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <div class="section-title">
+                <h2>How It Works</h2>
+                <p>Get started in just 4 simple steps</p>
+            </div>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Upload Your CV</h3>
+                    <p>Upload your current resume or CV in any format</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Select Locations</h3>
+                    <p>Choose provinces, cities, and towns where you want to work</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Make Payment</h3>
+                    <p>Pay R499 once for unlimited applications for 30 days</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Let AI Work</h3>
+                    <p>Our AI applies to relevant jobs and tracks your applications</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <div class="section-title">
+                <h2>Simple, Transparent Pricing</h2>
+                <p>One-time payment for unlimited job applications</p>
+            </div>
+            <div class="pricing-card featured">
+                <h3>AI Job Application Package</h3>
+                <div class="price">R499</div>
+                <p>One-time payment • 30 days of service</p>
+                <ul class="pricing-features">
+                    <li><i class="fas fa-check" style="color: var(--success); margin-right: 0.5rem;"></i> AI Resume Optimization</li>
+                    <li><i class="fas fa-check" style="color: var(--success); margin-right: 0.5rem;"></i> Personalized Cover Letters</li>
+                    <li><i class="fas fa-check" style="color: var(--success); margin-right: 0.5rem;"></i> Job Matching Across South Africa</li>
+                    <li><i class="fas fa-check" style="color: var(--success); margin-right: 0.5rem;"></i> Automated Application Submission</li>
+                    <li><i class="fas fa-check" style="color: var(--success); margin-right: 0.5rem;"></i> Application Tracking Dashboard</li>
+                    <li><i class="fas fa-check" style="color: var(--success); margin-right: 0.5rem;"></i> Email & SMS Notifications</li>
+                </ul>
+                <button class="btn btn-primary" style="width: 100%; padding: 1rem; font-size: 1.1rem;">
+                    Get Started Now
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Upload Section -->
+    <section class="upload-section" id="upload">
+        <div class="container">
+            <div class="section-title">
+                <h2>Start Your Job Search</h2>
+                <p>Upload your CV and select your preferred locations</p>
+            </div>
+            <div class="upload-container">
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <h3>Upload Your CV/Resume</h3>
+                    <p>Drag & drop your file here or click to browse</p>
+                    <p class="file-types">Supported formats: PDF, DOC, DOCX, TXT (Max 5MB)</p>
+                    <input type="file" class="file-input" id="fileInput" accept=".pdf,.doc,.docx,.txt">
+                </div>
+
+                <div class="location-selector">
+                    <h3>Select Your Preferred Work Locations</h3>
+                    <p>Choose provinces and specific cities/towns where you'd like to work</p>
+                    
+                    <div class="location-grid" id="locationGrid">
+                        <!-- Locations will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button class="btn btn-primary" style="padding: 1rem 2rem; font-size: 1.1rem;" id="proceedToPayment">
+                        Proceed to Payment <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Payment Section -->
+    <section class="payment-section" id="payment" style="display: none;">
+        <div class="container">
+            <div class="section-title">
+                <h2>Complete Your Payment</h2>
+                <p>Choose your preferred payment method</p>
+            </div>
+            <div class="upload-container">
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <h3>Total Amount: R499</h3>
+                    <p>One-time payment for 30 days of service</p>
+                </div>
+
+                <div class="payment-methods">
+                    <div class="payment-method" id="payfastMethod">
+                        <div class="payment-icon">
+                            <i class="fas fa-credit-card"></i>
+                        </div>
+                        <h3>PayFast</h3>
+                        <p>Credit Card, Debit Card, EFT</p>
+                    </div>
+                    <div class="payment-method" id="eftMethod">
+                        <div class="payment-icon">
+                            <i class="fas fa-university"></i>
+                        </div>
+                        <h3>Direct EFT</h3>
+                        <p>Bank Transfer</p>
+                    </div>
+                </div>
+
+                <div id="payfastDetails" style="display: none; margin-top: 2rem; text-align: center;">
+                    <p>You will be redirected to PayFast to complete your payment securely.</p>
+                    <button class="btn btn-primary" style="padding: 1rem 2rem; font-size: 1.1rem; margin-top: 1rem;">
+                        Proceed to PayFast <i class="fas fa-external-link-alt"></i>
+                    </button>
+                </div>
+
+                <div id="eftDetails" style="display: none; margin-top: 2rem;">
+                    <h4>Bank Transfer Details</h4>
+                    <div style="background-color: #f8fafc; padding: 1.5rem; border-radius: 8px; margin-top: 1rem;">
+                        <p><strong>Bank:</strong> Standard Bank</p>
+                        <p><strong>Account Name:</strong> CareerBoost AI (Pty) Ltd</p>
+                        <p><strong>Account Number:</strong> 0123456789</p>
+                        <p><strong>Branch Code:</strong> 051001</p>
+                        <p><strong>Reference:</strong> Your email address</p>
+                    </div>
+                    <p style="margin-top: 1rem; font-style: italic;">Once payment is confirmed, your account will be activated within 24 hours.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>CareerBoost AI</h3>
+                    <p>Revolutionizing job searching with artificial intelligence across South Africa.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#how-it-works">How It Works</a></li>
+                        <li><a href="#pricing">Pricing</a></li>
+                        <li><a href="#">Success Stories</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Support</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Refund Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Info</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-envelope" style="margin-right: 0.5rem;"></i> support@careerboost.ai</li>
+                        <li><i class="fas fa-phone" style="margin-right: 0.5rem;"></i> +27 21 123 4567</li>
+                        <li><i class="fas fa-map-marker-alt" style="margin-right: 0.5rem;"></i> Cape Town, South Africa</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 CareerBoost AI. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // South African locations data
+        const saLocations = {
+            "Western Cape": [
+                "Cape Town", "Stellenbosch", "Paarl", "Worcester", "George", "Mossel Bay", "Knysna", "Oudtshoorn", 
+                "Somerset West", "Bellville", "Durbanville", "Constantia", "Sea Point", "Camps Bay", "Hout Bay",
+                "Simon's Town", "Fish Hoek", "Noordhoek", "Kalk Bay", "Muizenberg", "Strand", "Gordon's Bay",
+                "Vredenburg", "Saldanha", "Malmesbury", "Ceres", "Robertson", "Swellendam", "Hermanus", "Gansbaai"
+            ],
+            "Gauteng": [
+                "Johannesburg", "Pretoria", "Sandton", "Randburg", "Roodepoort", "Benoni", "Boksburg", "Kempton Park",
+                "Germiston", "Alberton", "Centurion", "Midrand", "Fourways", "Rosebank", "Parktown", "Soweto",
+                "Alexandra", "Brakpan", "Springs", "Vereeniging", "Vanderbijlpark", "Krugersdorp", "Carletonville",
+                "Westonaria", "Randfontein", "Meyerton", "Heidelberg", "Nigel", "Bronkhorstspruit", "Cullinan"
+            ],
+            "KwaZulu-Natal": [
+                "Durban", "Pietermaritzburg", "Umhlanga", "Ballito", "Amanzimtoti", "Westville", "Pinetown", "Hillcrest",
+                "Kloof", "Newcastle", "Ladysmith", "Richards Bay", "Empangeni", "Margate", "Port Shepstone", "Scottburgh",
+                "Stanger", "Verulam", "Estcourt", "Howick", "Nottingham Road", "Drakensberg", "Zululand", "Eshowe",
+                "Mtunzini", "Hluhluwe", "St Lucia", "Harding", "Ixopo", "Kokstad"
+            ],
+            "Eastern Cape": [
+                "Port Elizabeth", "East London", "Grahamstown", "Mthatha", "Queenstown", "Uitenhage", "Despatch",
+                "Jeffrey's Bay", "St Francis Bay", "Port Alfred", "Graaff-Reinet", "Cradock", "Aliwal North", "Butterworth",
+                "Maclear", "Mount Fletcher", "Lady Frere", "Bisho", "Bhisho", "Fort Beaufort", "Adelaide", "Bedford",
+                "Cathcart", "Hankey", "Patensie", "Kirkwood", "Jansenville", "Willowmore", "Steytlerville", "Aberdeen"
+            ],
+            "Free State": [
+                "Bloemfontein", "Welkom", "Bethlehem", "Kroonstad", "Sasolburg", "Virginia", "Phuthaditjhaba", "Botshabelo",
+                "Thaba Nchu", "Ladybrand", "Ficksburg", "Clocolan", "Harrismith", "Kestell", "Reitz", "Frankfort", "Villiers",
+                "Heilbron", "Bethulie", "Fauresmith", "Jagersfontein", "Koffiefontein", "Luckhoff", "Philippolis", "Reddersburg",
+                "Smithfield", "Springfontein", "Trompsburg", "Wepener", "Zastron"
+            ],
+            "Limpopo": [
+                "Polokwane", "Thohoyandou", "Louis Trichardt", "Tzaneen", "Phalaborwa", "Lephalale", "Mokopane", "Bela-Bela",
+                "Modimolle", "Mookgophong", "Marken", "Hoedspruit", "Giyani", "Ga-Kgapane", "Seshego", "Mankweng", "Duiwelskloof",
+                "Soekmekaar", "Vivo", "Alldays", "Musina", "Tshipise", "Nylstroom", "Warmbaths", "Naboomspruit", "Potgietersrus",
+                "Vaalwater", "Ellisras", "Roedtan", "Dendron"
+            ],
+            "Mpumalanga": [
+                "Nelspruit", "Witbank", "Middleburg", "Secunda", "Ermelo", "Barberton", "White River", "Hazyview", "Malelane",
+                "Komatipoort", "Pilgrim's Rest", "Sabie", "Graskop", "Lydenburg", "Belfast", "Carolina", "Amsterdam", "Badplaas",
+                "Breyten", "Chrissiesmeer", "Delmas", "Elukwatini", "Kriel", "Matsulu", "Perdekop", "Siyabuswa", "Standerton",
+                "Trichardt", "Verena", "Waterval Boven"
+            ],
+            "North West": [
+                "Rustenburg", "Potchefstroom", "Klerksdorp", "Mahikeng", "Brits", "Zeerust", "Lichtenburg", "Wolmaransstad",
+                "Vryburg", "Stilfontein", "Orkney", "Hartbeesfontein", "Bloemhof", "Christiana", "Leeudoringstad", "Sannieshof",
+                "Delareyville", "Coligny", "Groot Marico", "Mafikeng", "Mmabatho", "Mogwase", "Sun City", "Pilanesberg",
+                "Boshoek", "Koster", "Swartruggens", "Tlokwe", "Ventersdorp", "Witrand"
+            ],
+            "Northern Cape": [
+                "Kimberley", "Upington", "Springbok", "De Aar", "Kuruman", "Postmasburg", "Kathu", "Prieska", "Colesberg",
+                "Calvinia", "Sutherland", "Vanwyksvlei", "Pofadder", "Aggeneys", "Garies", "Noupoort", "Douglas", "Barkly West",
+                "Warrenton", "Jan Kempdorp", "Hartswater", "Danielskuil", "Griekwastad", "Marydale", "Strydenburg", "Britstown",
+                "Carnarvon", "Fraserburg", "Loeriesfontein", "Williston"
+            ]
+        };
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            // Populate location grid
+            const locationGrid = document.getElementById('locationGrid');
+            
+            for (const province in saLocations) {
+                // Create province header
+                const provinceHeader = document.createElement('div');
+                provinceHeader.className = 'location-option';
+                provinceHeader.style.gridColumn = '1 / -1';
+                provinceHeader.style.textAlign = 'left';
+                provinceHeader.style.fontWeight = 'bold';
+                provinceHeader.style.backgroundColor = '#f1f5f9';
+                provinceHeader.textContent = province;
+                locationGrid.appendChild(provinceHeader);
+                
+                // Add cities for this province
+                saLocations[province].forEach(city => {
+                    const locationOption = document.createElement('div');
+                    locationOption.className = 'location-option';
+                    locationOption.textContent = city;
+                    locationOption.addEventListener('click', function() {
+                        this.classList.toggle('selected');
+                    });
+                    locationGrid.appendChild(locationOption);
+                });
+            }
+
+            // File upload functionality
+            const uploadArea = document.getElementById('uploadArea');
+            const fileInput = document.getElementById('fileInput');
+            
+            uploadArea.addEventListener('click', function() {
+                fileInput.click();
+            });
+            
+            uploadArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.classList.add('dragover');
+            });
+            
+            uploadArea.addEventListener('dragleave', function() {
+                this.classList.remove('dragover');
+            });
+            
+            uploadArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.classList.remove('dragover');
+                
+                if (e.dataTransfer.files.length) {
+                    fileInput.files = e.dataTransfer.files;
+                    handleFileSelect(e.dataTransfer.files[0]);
+                }
+            });
+            
+            fileInput.addEventListener('change', function() {
+                if (this.files.length) {
+                    handleFileSelect(this.files[0]);
+                }
+            });
+            
+            function handleFileSelect(file) {
+                const validTypes = ['application/pdf', 'application/msword', 
+                                   'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 
+                                   'text/plain'];
+                
+                if (!validTypes.includes(file.type)) {
+                    alert('Please upload a valid file type: PDF, DOC, DOCX, or TXT');
+                    return;
+                }
+                
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('File size must be less than 5MB');
+                    return;
+                }
+                
+                uploadArea.innerHTML = `
+                    <div class="upload-icon" style="color: var(--success);">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h3>File Uploaded Successfully!</h3>
+                    <p>${file.name}</p>
+                    <button class="btn btn-outline" style="margin-top: 1rem;" id="changeFile">
+                        Change File
+                    </button>
+                `;
+                
+                document.getElementById('changeFile').addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    resetUploadArea();
+                });
+            }
+            
+            function resetUploadArea() {
+                uploadArea.innerHTML = `
+                    <div class="upload-icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <h3>Upload Your CV/Resume</h3>
+                    <p>Drag & drop your file here or click to browse</p>
+                    <p class="file-types">Supported formats: PDF, DOC, DOCX, TXT (Max 5MB)</p>
+                    <input type="file" class="file-input" id="fileInput" accept=".pdf,.doc,.docx,.txt">
+                `;
+                
+                fileInput = document.getElementById('fileInput');
+                fileInput.addEventListener('change', function() {
+                    if (this.files.length) {
+                        handleFileSelect(this.files[0]);
+                    }
+                });
+            }
+
+            // Payment method selection
+            const payfastMethod = document.getElementById('payfastMethod');
+            const eftMethod = document.getElementById('eftMethod');
+            const payfastDetails = document.getElementById('payfastDetails');
+            const eftDetails = document.getElementById('eftDetails');
+            
+            payfastMethod.addEventListener('click', function() {
+                payfastMethod.classList.add('selected');
+                eftMethod.classList.remove('selected');
+                payfastDetails.style.display = 'block';
+                eftDetails.style.display = 'none';
+            });
+            
+            eftMethod.addEventListener('click', function() {
+                eftMethod.classList.add('selected');
+                payfastMethod.classList.remove('selected');
+                eftDetails.style.display = 'block';
+                payfastDetails.style.display = 'none';
+            });
+
+            // Proceed to payment
+            document.getElementById('proceedToPayment').addEventListener('click', function() {
+                const selectedLocations = document.querySelectorAll('.location-option.selected');
+                const fileUploaded = document.querySelector('.fa-check-circle');
+                
+                if (!fileUploaded) {
+                    alert('Please upload your CV first');
+                    return;
+                }
+                
+                if (selectedLocations.length === 0) {
+                    alert('Please select at least one location');
+                    return;
+                }
+                
+                document.getElementById('upload').style.display = 'none';
+                document.getElementById('payment').style.display = 'block';
+                
+                // Scroll to payment section
+                document.getElementById('payment').scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>
