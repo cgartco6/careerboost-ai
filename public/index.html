@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareerBoost AI | Automated Job Applications</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #10b981;
+            --dark: #1f2937;
+            --light: #f9fafb;
+            --gray: #6b7280;
+            --gray-light: #e5e7eb;
+            --danger: #ef4444;
+            --success: #10b981;
+            --warning: #f59e0b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f8fafc;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header & Navigation */
+        header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--danger);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 8rem 0 5rem;
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        /* Shopping Cart */
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100vh;
+            background: white;
+            box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+            transition: right 0.3s ease;
+            z-index: 1001;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .cart-sidebar.active {
+            right: 0;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        .cart-items {
+            margin-bottom: 2rem;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        .cart-item-info h4 {
+            margin-bottom: 0.5rem;
+        }
+
+        .cart-item-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .quantity-btn {
+            width: 30px;
+            height: 30px;
+            border: 1px solid var(--gray-light);
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .remove-btn {
+            color: var(--danger);
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cart-total {
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin: 2rem 0;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 1rem;
+            background: var(--success);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            cursor: pointer;
+        }
+
+        /* Product Grid */
+        .products {
+            padding: 5rem 0;
+            background: var(--light);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-image {
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-info h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 1rem 0;
+        }
+
+        .add-to-cart {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .add-to-cart:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Payment Section */
+        .payment-section {
+            padding: 5rem 0;
+            background: white;
+        }
+
+        .payment-form {
+            max-width: 500px;
+            margin: 0 auto;
+            background: var(--light);
+            padding: 2rem;
+            border-radius: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--gray-light);
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        .payment-methods {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .payment-method {
+            border: 2px solid var(--gray-light);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .payment-method.selected {
+            border-color: var(--primary);
+            background: rgba(37, 99, 235, 0.05);
+        }
+
+        /* Admin Dashboard */
+        .admin-dashboard {
+            display: none;
+            padding: 6rem 0 2rem;
+            background: #f8fafc;
+            min-height: 100vh;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .stat-card h3 {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card .value {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-links a {
+            color: #d1d5db;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: #374151;
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .cart-sidebar {
+                width: 100%;
+                right: -100%;
+            }
+            
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .payment-methods {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="#home" class="logo">
+                    <i class="fas fa-brain"></i>
+                    CareerBoost AI
+                </a>
+                
+                <div class="nav-links">
+                    <a href="#home">Home</a>
+                    <a href="#products">Services</a>
+                    <a href="#how-it-works">How It Works</a>
+                    <a href="#" id="adminLogin">Admin</a>
+                    <div class="cart-icon" id="cartIcon">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count">0</span>
+                    </div>
+                    <div class="auth-buttons">
+                        <button class="btn btn-outline" id="loginBtn">Login</button>
+                        <button class="btn btn-primary" id="registerBtn">Register</button>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Shopping Cart -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h2>Your Cart</h2>
+            <button class="btn btn-outline" id="closeCart">Close</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <!-- Cart items will be dynamically added here -->
+        </div>
+        <div class="cart-total">
+            Total: R<span id="cartTotal">0</span>
+        </div>
+        <button class="checkout-btn" id="checkoutBtn">Proceed to Checkout</button>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <h1>AI-Powered Job Applications</h1>
+            <p>Let our AI handle your job search while you focus on interviews. Upload once, apply everywhere.</p>
+            <div class="hero-buttons">
+                <button class="btn btn-success" style="font-size: 1.1rem; padding: 1rem 2rem;">
+                    <i class="fas fa-rocket"></i> Get Started - R499
+                </button>
+                <button class="btn btn-outline" style="background: rgba(255,255,255,0.2); color: white; border-color: white;">
+                    <i class="fas fa-play-circle"></i> Watch Demo
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products/Services -->
+    <section class="products" id="products">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 1rem;">Our AI Services</h2>
+            <p style="text-align: center; color: var(--gray); max-width: 600px; margin: 0 auto;">
+                Choose the perfect package for your job search needs
+            </p>
+            
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-image">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <div class="product-info">
+                        <h3>Basic AI Application</h3>
+                        <p>AI resume optimization and basic job matching</p>
+                        <div class="product-price">R299</div>
+                        <button class="add-to-cart" data-id="1" data-name="Basic AI Application" data-price="299">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="product-info">
+                        <h3>Pro AI Job Search</h3>
+                        <p>Full AI job matching, resume rewriting, and applications</p>
+                        <div class="product-price">R499</div>
+                        <button class="add-to-cart" data-id="2" data-name="Pro AI Job Search" data-price="499">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <div class="product-info">
+                        <h3>Enterprise Suite</h3>
+                        <p>Premium features including LinkedIn optimization</p>
+                        <div class="product-price">R799</div>
+                        <button class="add-to-cart" data-id="3" data-name="Enterprise Suite" data-price="799">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Payment Section -->
+    <section class="payment-section" id="payment" style="display: none;">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 2rem;">Complete Your Purchase</h2>
+            
+            <div class="payment-form">
+                <h3 style="margin-bottom: 1rem;">Order Summary</h3>
+                <div id="orderSummary"></div>
+                
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="customerEmail" required>
+                </div>
+                
+                <h3 style="margin: 2rem 0 1rem;">Payment Method</h3>
+                <div class="payment-methods">
+                    <div class="payment-method" data-method="payfast">
+                        <i class="fas fa-credit-card" style="font-size: 2rem; margin-bottom: 0.5rem;"></i>
+                        <div>PayFast</div>
+                    </div>
+                    <div class="payment-method" data-method="eft">
+                        <i class="fas fa-university" style="font-size: 2rem; margin-bottom: 0.5rem;"></i>
+                        <div>Bank EFT</div>
+                    </div>
+                </div>
+                
+                <div id="payfastDetails" style="display: none;">
+                    <p>You'll be redirected to PayFast to complete payment</p>
+                    <button class="btn btn-primary" style="width: 100%; padding: 1rem; margin-top: 1rem;">
+                        Pay with PayFast
+                    </button>
+                </div>
+                
+                <div id="eftDetails" style="display: none;">
+                    <div style="background: white; padding: 1rem; border-radius: 6px; margin: 1rem 0;">
+                        <p><strong>Bank:</strong> FNB</p>
+                        <p><strong>Account:</strong> Kelnic Solutions</p>
+                        <p><strong>Acc Number:</strong> 62345678901</p>
+                        <p><strong>Reference:</strong> <span id="eftReference"></span></p>
+                    </div>
+                    <button class="btn btn-success" style="width: 100%; padding: 1rem;">
+                        I've Made Payment
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Admin Dashboard -->
+    <section class="admin-dashboard" id="adminDashboard">
+        <div class="container">
+            <div class="dashboard-header">
+                <h1>Admin Dashboard</h1>
+                <button class="btn btn-outline" id="logoutAdmin">Logout</button>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Total Revenue</h3>
+                    <div class="value">R 45,230</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Active Users</h3>
+                    <div class="value">1,247</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Orders Today</h3>
+                    <div class="value">18</div>
+                </div>
+            </div>
+            
+            <!-- Admin content here -->
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <h3>CareerBoost AI</h3>
+                    <p>Kelnic Solutions Group</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3>Quick Links</h3>
+                    <div class="footer-links">
+                        <a href="#home">Home</a>
+                        <a href="#products">Services</a>
+                        <a href="#how-it-works">How It Works</a>
+                        <a href="#payment">Pricing</a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3>Support</h3>
+                    <div class="footer-links">
+                        <a href="mailto:careerboost@kelnic.co.za">Email Support</a>
+                        <a href="https://wa.me/27845437641" target="_blank">WhatsApp</a>
+                        <a href="#">Help Center</a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3>Contact</h3>
+                    <div class="footer-links">
+                        <a href="mailto:careerboost@kelnic.co.za">
+                            <i class="fas fa-envelope"></i> careerboost@kelnic.co.za
+                        </a>
+                        <a href="https://wa.me/27845437641" target="_blank">
+                            <i class="fab fa-whatsapp"></i> 084 543 7641
+                        </a>
+                        <a href="#">
+                            <i class="fas fa-map-marker-alt"></i> Cape Town, SA
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; padding-top: 2rem; border-top: 1px solid #374151;">
+                <p>&copy; 2024 CareerBoost AI by Kelnic Solutions. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Shopping Cart Functionality
+        class ShoppingCart {
+            constructor() {
+                this.items = JSON.parse(localStorage.getItem('cart')) || [];
+                this.updateCartDisplay();
+            }
+
+            addItem(product) {
+                const existingItem = this.items.find(item => item.id === product.id);
+                
+                if (existingItem) {
+                    existingItem.quantity += 1;
+                } else {
+                    this.items.push({
+                        ...product,
+                        quantity: 1
+                    });
+                }
+                
+                this.saveCart();
+                this.updateCartDisplay();
+            }
+
+            removeItem(productId) {
+                this.items = this.items.filter(item => item.id !== productId);
+                this.saveCart();
+                this.updateCartDisplay();
+            }
+
+            updateQuantity(productId, change) {
+                const item = this.items.find(item => item.id === productId);
+                if (item) {
+                    item.quantity += change;
+                    if (item.quantity <= 0) {
+                        this.removeItem(productId);
+                    } else {
+                        this.saveCart();
+                        this.updateCartDisplay();
+                    }
+                }
+            }
+
+            getTotal() {
+                return this.items.reduce((total, item) => total + (item.price * item.quantity), 0);
+            }
+
+            saveCart() {
+                localStorage.setItem('cart', JSON.stringify(this.items));
+            }
+
+            updateCartDisplay() {
+                const cartCount = document.querySelector('.cart-count');
+                const cartItems = document.getElementById('cartItems');
+                const cartTotal = document.getElementById('cartTotal');
+
+                // Update cart count
+                const totalItems = this.items.reduce((sum, item) => sum + item.quantity, 0);
+                cartCount.textContent = totalItems;
+
+                // Update cart items
+                cartItems.innerHTML = '';
+                this.items.forEach(item => {
+                    const cartItem = document.createElement('div');
+                    cartItem.className = 'cart-item';
+                    cartItem.innerHTML = `
+                        <div class="cart-item-info">
+                            <h4>${item.name}</h4>
+                            <p>R${item.price} x ${item.quantity}</p>
+                        </div>
+                        <div class="cart-item-actions">
+                            <div class="quantity-controls">
+                                <button class="quantity-btn" onclick="cart.updateQuantity(${item.id}, -1)">-</button>
+                                <span>${item.quantity}</span>
+                                <button class="quantity-btn" onclick="cart.updateQuantity(${item.id}, 1)">+</button>
+                            </div>
+                            <button class="remove-btn" onclick="cart.removeItem(${item.id})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    `;
+                    cartItems.appendChild(cartItem);
+                });
+
+                // Update total
+                cartTotal.textContent = this.getTotal();
+            }
+
+            clear() {
+                this.items = [];
+                this.saveCart();
+                this.updateCartDisplay();
+            }
+        }
+
+        // Initialize cart
+        const cart = new ShoppingCart();
+
+        // DOM Elements
+        const cartIcon = document.getElementById('cartIcon');
+        const cartSidebar = document.getElementById('cartSidebar');
+        const closeCart = document.getElementById('closeCart');
+        const checkoutBtn = document.getElementById('checkoutBtn');
+        const addToCartButtons = document.querySelectorAll('.add-to-cart');
+        const paymentMethods = document.querySelectorAll('.payment-method');
+        const payfastDetails = document.getElementById('payfastDetails');
+        const eftDetails = document.getElementById('eftDetails');
+        const paymentSection = document.getElementById('payment');
+        const orderSummary = document.getElementById('orderSummary');
+        const adminDashboard = document.getElementById('adminDashboard');
+        const adminLogin = document.getElementById('adminLogin');
+        const logoutAdmin = document.getElementById('logoutAdmin');
+
+        // Cart Toggle
+        cartIcon.addEventListener('click', () => {
+            cartSidebar.classList.add('active');
+        });
+
+        closeCart.addEventListener('click', () => {
+            cartSidebar.classList.remove('active');
+        });
+
+        // Add to Cart
+        addToCartButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                const product = {
+                    id: parseInt(e.target.dataset.id),
+                    name: e.target.dataset.name,
+                    price: parseInt(e.target.dataset.price)
+                };
+                cart.addItem(product);
+                
+                // Show confirmation
+                e.target.textContent = 'Added!';
+                e.target.style.background = 'var(--success)';
+                setTimeout(() => {
+                    e.target.textContent = 'Add to Cart';
+                    e.target.style.background = 'var(--primary)';
+                }, 2000);
+            });
+        });
+
+        // Checkout Process
+        checkoutBtn.addEventListener('click', () => {
+            if (cart.items.length === 0) {
+                alert('Your cart is empty!');
+                return;
+            }
+
+            // Show payment section
+            paymentSection.style.display = 'block';
+            document.getElementById('payment').scrollIntoView({ behavior: 'smooth' });
+            
+            // Update order summary
+            orderSummary.innerHTML = '';
+            cart.items.forEach(item => {
+                const itemElement = document.createElement('div');
+                itemElement.style.display = 'flex';
+                itemElement.style.justifyContent = 'space-between';
+                itemElement.style.marginBottom = '0.5rem';
+                itemElement.innerHTML = `
+                    <span>${item.name} x${item.quantity}</span>
+                    <span>R${item.price * item.quantity}</span>
+                `;
+                orderSummary.appendChild(itemElement);
+            });
+
+            // Add total
+            const totalElement = document.createElement('div');
+            totalElement.style.display = 'flex';
+            totalElement.style.justifyContent = 'space-between';
+            totalElement.style.marginTop = '1rem';
+            totalElement.style.paddingTop = '1rem';
+            totalElement.style.borderTop = '1px solid var(--gray-light)';
+            totalElement.style.fontWeight = '600';
+            totalElement.innerHTML = `
+                <span>Total:</span>
+                <span>R${cart.getTotal()}</span>
+            `;
+            orderSummary.appendChild(totalElement);
+
+            // Set EFT reference
+            document.getElementById('eftReference').textContent = `CB${Date.now()}`;
+            
+            // Close cart
+            cartSidebar.classList.remove('active');
+        });
+
+        // Payment Method Selection
+        paymentMethods.forEach(method => {
+            method.addEventListener('click', () => {
+                // Remove selected class from all methods
+                paymentMethods.forEach(m => m.classList.remove('selected'));
+                // Add selected class to clicked method
+                method.classList.add('selected');
+                
+                // Show corresponding payment details
+                const paymentType = method.dataset.method;
+                payfastDetails.style.display = paymentType === 'payfast' ? 'block' : 'none';
+                eftDetails.style.display = paymentType === 'eft' ? 'block' : 'none';
+            });
+        });
+
+        // Admin Login
+        adminLogin.addEventListener('click', (e) => {
+            e.preventDefault();
+            const username = prompt('Admin Username:');
+            const password = prompt('Admin Password:');
+            
+            if (username === 'admin' && password === 'admin123') {
+                // Hide all sections
+                document.querySelectorAll('section').forEach(section => {
+                    section.style.display = 'none';
+                });
+                document.querySelector('footer').style.display = 'none';
+                document.querySelector('header').style.display = 'none';
+                
+                // Show admin dashboard
+                adminDashboard.style.display = 'block';
+            } else {
+                alert('Invalid credentials');
+            }
+        });
+
+        // Admin Logout
+        logoutAdmin.addEventListener('click', () => {
+            // Show all sections
+            document.querySelectorAll('section').forEach(section => {
+                section.style.display = 'block';
+            });
+            document.querySelector('footer').style.display = 'block';
+            document.querySelector('header').style.display = 'flex';
+            
+            // Hide admin dashboard
+            adminDashboard.style.display = 'none';
+            paymentSection.style.display = 'none';
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Close cart when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!cartSidebar.contains(e.target) && !cartIcon.contains(e.target)) {
+                cartSidebar.classList.remove('active');
+            }
+        });
+
+        // Initialize payment method
+        paymentMethods[0].click();
+
+        console.log('CareerBoost AI Platform Loaded Successfully!');
+        console.log('Features: Shopping Cart, Payment System, Admin Dashboard, Responsive Design');
+    </script>
+</body>
+</html>
