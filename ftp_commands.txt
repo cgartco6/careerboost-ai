@@ -1,0 +1,8 @@
+open %HOST%
+%USER%
+%PASS%
+binary
+lcd public
+cd public_html
+mput *.*
+quit
