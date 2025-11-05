@@ -1,5 +1,0 @@
-MONGODB_URI=mongodb://localhost:27017/careerboost
-JWT_SECRET=your_jwt_secret_key
-PAYFAST_MERCHANT_ID=your_merchant_id
-PAYFAST_MERCHANT_KEY=your_merchant_key
-OPENAI_API_KEY=your_openai_api_key
